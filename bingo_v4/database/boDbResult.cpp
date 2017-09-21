@@ -31,11 +31,11 @@ void boDbResult::add_row( boDbRow* row ) {
 }
 
 boDbRow* boDbResult::get_row( int index ) {
-        return rows_[index] ;
+        return rows_.at( index ) ;
 }
 
 boDbFieldHeader* boDbResult::get_header( int index ) {
-        return header_[index] ;
+        return header_.at( index ) ;
 }
 
 int boDbResult::get_header_index( const char* header_name ) {

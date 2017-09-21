@@ -27,7 +27,7 @@ void boDbRow::add_field( boDbField* field ) {
 }
 
 boDbField* boDbRow::get_field( int index ) {
-        return fields_[index] ;
+        return fields_.at( index ) ;
 }
 
 boDbField* boDbRow::get_field( const char* field_name ) {
@@ -37,7 +37,7 @@ boDbField* boDbRow::get_field( const char* field_name ) {
         if ( index == -1 )
                 return 0 ;
         else {
-                return fields_[index] ;
+                return fields_.at( index ) ;
         }
 }
 

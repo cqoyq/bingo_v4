@@ -30,7 +30,7 @@ namespace bingo {
                 }
 
                 // Get item by index, fail return 0.
-                T* operator[](int index) {
+                T* at(int index) {
                         int max = collection_.size() - 1;
                         if (index <= max)
                                 return &(collection_[index]);
