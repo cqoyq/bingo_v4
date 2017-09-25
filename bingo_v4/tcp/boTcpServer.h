@@ -86,7 +86,8 @@ namespace bingo {
                                 pointer new_handler(new HANDLER(ios_,
                                                                 PARSER::max_wait_for_heartjump_seconds,
                                                                 PARSER::max_wait_for_authentication_pass_seconds,
-                                                                bind(&boTcpServer::remove_socket, this, _1)
+                                                                bind(&boTcpServer::remove_socket, this, _1),
+                                                                this
                                                                 ));
 
                                 // Start to wait for connect.

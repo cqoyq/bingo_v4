@@ -22,14 +22,16 @@ using namespace bingo::algorithm ;
 boTcpSvrHandler::boTcpSvrHandler( boost::asio::io_service& io_service ,
                                   int max_wait_for_heartjump_seconds ,
                                   int max_wait_for_authentication_pass_seconds ,
-                                  remove_socket_func f1 ) :
+                                  remove_socket_func f1 ,
+                                  void* acceptor ) :
      ios_( io_service ) ,
      socket_( io_service ) ,
      is_valid_( true ) ,
      is_authentication_pass_( false ) ,
      max_wait_for_heartjump_seconds_( max_wait_for_heartjump_seconds ) ,
      max_wait_for_authentication_pass_seconds_( max_wait_for_authentication_pass_seconds ) ,
-     f1_( f1 ) {
+     f1_( f1 ) ,
+     acceptor_( acceptor ) {
 
         memset( message_block , 0x00 , MESSAGE_MAX_OF_SIZE ) ;
 

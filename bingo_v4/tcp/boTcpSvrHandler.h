@@ -36,12 +36,18 @@ namespace bingo {
                         explicit boTcpSvrHandler(BO_ASYNC_SERVICE& io_service,
                                                  int max_wait_for_heartjump_seconds,
                                                  int max_wait_for_authentication_pass_seconds,
-                                                 remove_socket_func f1);
+                                                 remove_socket_func f1,
+                                                 void* acceptor = 0);
                         virtual ~boTcpSvrHandler();
 
                         // Get scoket
                         ip::tcp::socket& socket() {
                                 return socket_;
+                        }
+
+                        // Get acceptor
+                        void* acceptor() {
+                                return acceptor_;
                         }
 
                         // Get uuid
@@ -147,6 +153,7 @@ namespace bingo {
                         BO_ASYNC_SERVICE& ios_;
                         ip::tcp::socket socket_;
                         remove_socket_func f1_;
+                        void* acceptor_; // Pointer to boTcpServer.
 
                         bool is_valid_;
                         string uuid_flag_; // uuid's string format, this is boTcpSvrHandler's identify. 
