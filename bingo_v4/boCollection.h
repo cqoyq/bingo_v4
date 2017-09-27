@@ -67,7 +67,7 @@ namespace bingo {
                 }
 
                 // Get item by index, fail return 0.
-                T* operator[](int index) {
+                T* at(int index) {
                         // lock part field.
                         BO_SCOPE_LOCK_TYPE lock(mtx_);
 
@@ -84,6 +84,10 @@ namespace bingo {
                         BO_SCOPE_LOCK_TYPE lock(mtx_);
 
                         return collection_.size();
+                }
+                boost::ptr_vector<T> & collection() {
+                        
+                        return collection_;
                 }
 
         protected:
