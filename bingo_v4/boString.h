@@ -16,6 +16,11 @@
 using namespace std;
 
 #include "boType.h"
+#include "boErrorWhat.h"
+
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>       
+using namespace boost;
 
 namespace bingo {
 
@@ -61,6 +66,30 @@ namespace bingo {
                 string convert(const char*& t);
                 string convert(const char& t);
                 string convert(const u8_t& t);
+
+                // Convert integer's string to integer.
+                template<typename T>
+                static std::tuple<bool, T> to_integer(string& in) {
+                        T n = 0;
+                        bool is_succ = boost::all(in, is_digit());
+
+                        if (in.length() == 0)
+                                is_succ = false;
+                        else if (in.length() == 1)
+                                is_succ = boost::all(in, is_digit());
+                        else if (in.substr(0, 1).compare("-") == 0) {
+                                // first char is negative.
+                                is_succ = boost::all(in.substr(1, in.length() - 1), is_digit());
+                        } else
+                                is_succ = boost::all(in, is_digit());
+
+                        if (is_succ)
+                                n = boost::lexical_cast<T>(in);
+
+                        return std::make_tuple(is_succ, n);
+                }
+
+
 
         protected:
 
