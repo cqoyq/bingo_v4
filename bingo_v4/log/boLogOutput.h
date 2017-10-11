@@ -66,6 +66,10 @@ namespace bingo {
                         virtual void transfer(string& info) {
                                 t. transfer(info);
                         }
+                        T& get_output_type() {
+                                return t;
+                        }
+
                 protected:
                         T t;
                 };

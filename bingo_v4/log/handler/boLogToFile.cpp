@@ -32,6 +32,6 @@ void boLogToFile::handle( int level , const char* tag , std::string& info ) {
 }
 
 void boLogToFile::set_path( string& path ) {
-        this->set_path( path ) ;
+        this->get_output_type( ).set_path( path ) ;
 }
 
