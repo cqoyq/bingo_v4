@@ -191,6 +191,7 @@ namespace bingo {
 
                                         // If retry_delay_seconds is 0, then don't reconnect.
                                         if (PARSER::retry_delay_seconds == 0) {
+                                                connet_fail_func(new_handler, retry_delay_);
                                                 ios_.stop();
                                                 return;
                                         }
@@ -239,8 +240,10 @@ namespace bingo {
                                 retry_delay_ = PARSER::retry_delay_seconds;
 
                                 // If retry_delay_seconds is 0, then don't reconnect.
-                                if (retry_delay_ == 0)
+                                if (retry_delay_ == 0) {
+                                        ios_.stop();
                                         return;
+                                }
 
                                 start_connect();
                         }
