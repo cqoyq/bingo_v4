@@ -24,7 +24,7 @@ namespace bingo {
                         };
 
                         virtual void handle(int level, const char* tag, std::string& info) = 0;
-                        void set_level(int level) {
+                        virtual void set_level(int level) {
                                 level_ = level;
                         };
 
