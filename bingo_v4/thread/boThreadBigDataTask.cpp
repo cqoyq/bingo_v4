@@ -93,7 +93,7 @@ void boThreadBigDataTask::svc( ) {
                 BO_SCOPE_LOCK_TYPE lock( mu_ ) ;
 
                 // Check buffer whether empty.
-                bool is_empty = ( queue_.size( ) == 0 ) ? true : false ;
+                bool is_empty = ( queue_.empty( ) ) ? true : false ;
                 while ( is_empty ) {
                         if ( is_thread_exit_ ) {
 #ifdef BINGO_DEBUG_THREAD_TASK
@@ -108,12 +108,12 @@ void boThreadBigDataTask::svc( ) {
                         // wait for notify.
                         cond_get_.wait( mu_ ) ;
 
-                        is_empty = ( queue_.size( ) == 0 ) ? true : false ; 
+                        is_empty = ( queue_.empty( ) ) ? true : false ;
                 }
 
                 // Condition is satisfy, then stop to wait.
                 // TASK_DATA top from queue.
-                boThreadTaskData* data = queue_.front( ) ; 
+                boThreadTaskData* data = queue_.front( ) ;
                 queue_.pop( ) ;
 
 #ifdef BINGO_DEBUG_THREAD_TASK
