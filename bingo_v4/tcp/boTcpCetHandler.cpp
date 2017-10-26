@@ -44,6 +44,10 @@ boTcpCetHandler::~boTcpCetHandler( ) {
 }
 
 void boTcpCetHandler::start( ) {
+        
+        // Save current to heartjump datetime.
+        set_heartjump_datetime();
+        
         string pk ;
         boErrorWhat e_what ;
         if ( make_first_sended_package_func( pk , e_what ) == 0 ) {
