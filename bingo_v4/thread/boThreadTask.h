@@ -25,16 +25,16 @@ using namespace bingo;
 
 namespace bingo {
         namespace thread {
-                class boThreadTask : public boThreadTaskTopAction, public boThreadTaskCheckExitFlagAction {
+                class boThreadTask : public boThreadTaskTopAction, public boThreadTaskCheckExitFlagAction, public boThreadTaskSvrAction {
                 public:
-
-                        explicit boThreadTask(boThreadTaskData* exit_thr_flag);
+                        boThreadTask(boThreadTaskData* exit_thr_flag);
+                        boThreadTask(const char* key, boThreadTaskData* exit_thr_flag);
                         virtual ~boThreadTask();
 
                         // The normal data task use put() to handle.
                         int put(boThreadTaskData* data, boErrorWhat& e_what);
-                        
-                         // Close task thread.
+
+                        // Close task thread.
                         void exit_task();
 
                 protected:

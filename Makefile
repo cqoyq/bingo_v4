@@ -49,7 +49,7 @@ OBJS =  main.o \
 	bingo_v4/log/handler/boLogToRb.o \
 	bingo_v4/thread/boThreadAction.o \
 	bingo_v4/thread/boThreadTask.o \
-	bingo_v4/thread/boThreadBigDataTask.o \
+	bingo_v4/thread/boThreadTaskManager.o \
 	bingo_v4/algorithm/boAlgorithmFactory.o \
 	bingo_v4/algorithm/boUUID.o \
 	bingo_v4/algorithm/boSha1.o \
@@ -104,7 +104,7 @@ CPPS = bingo_v4/boString.cpp \
 	bingo_v4/log/handler/boLogToRb.cpp \
 	bingo_v4/thread/boThreadAction.cpp \
 	bingo_v4/thread/boThreadTask.cpp \
-	bingo_v4/thread/boThreadBigDataTask.cpp \
+	bingo_v4/thread/boThreadTaskManager.cpp \
 	bingo_v4/algorithm/boAlgorithmFactory.cpp \
 	bingo_v4/algorithm/boUUID.cpp \
 	bingo_v4/algorithm/boSha1.cpp \

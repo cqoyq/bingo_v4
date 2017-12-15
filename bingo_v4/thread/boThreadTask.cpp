@@ -28,6 +28,17 @@ boThreadTask::boThreadTask( boThreadTaskData* exit_thr_flag ) :
         exit_thread_flag_ = exit_thr_flag ;
 }
 
+boThreadTask::boThreadTask( const char* key , boThreadTaskData* exit_thr_flag ) :
+     is_thread_exit_( false ) ,
+     thr_( bind( &boThreadTask::svc , this ) ) {
+
+        // Save exit_thread_flag.
+        exit_thread_flag_ = exit_thr_flag ;
+
+        // Save key
+        set_key( key ) ;
+}
+
 boThreadTask::~boThreadTask( ) {
 }
 
@@ -57,40 +68,42 @@ int boThreadTask::put( boThreadTaskData* data , boErrorWhat& e_what ) {
 void boThreadTask::svc( ) {
         while ( true ) {
 
-                // lock part field.
-                BO_SCOPE_LOCK_TYPE lock( mu_ ) ;
+                boThreadTaskData* data = nullptr ;
 
-                // Check buffer whether empty.
-                bool is_empty = ( queue_.empty( ) ) ? true : false ;
-                while ( is_empty ) {
-                        if ( is_thread_exit_ ) {
+                {
+                        // lock part field.
+                        BO_SCOPE_LOCK_TYPE lock( mu_ ) ;
+
+                        // Check buffer whether empty.
+                        bool is_empty = ( queue_.empty( ) ) ? true : false ;
+                        while ( is_empty ) {
+                                if ( is_thread_exit_ ) {
 #ifdef BINGO_DEBUG_THREAD_TASK
-                                bo_debug_out( "is_thread_exit_ is true, thread will exist" ) ;
+                                        bo_debug_out( "is_thread_exit_ is true, thread will exist" ) ;
 #endif
-                                return ;
+                                        return ;
+                                }
+
+#ifdef BINGO_DEBUG_THREAD_TASK
+                                bo_debug_out( "start cond_get_.wait(mu_)!" ) ;
+#endif
+                                // wait for notify.
+                                cond_get_.wait( mu_ ) ;
+
+                                is_empty = ( queue_.empty( ) ) ? true : false ;
                         }
 
-#ifdef BINGO_DEBUG_THREAD_TASK
-                        bo_debug_out( "start cond_get_.wait(mu_)!" ) ;
-#endif
-                        // wait for notify.
-                        cond_get_.wait( mu_ ) ;
-
-                        is_empty = ( queue_.empty( ) ) ? true : false ;
+                        // Condition is satisfy, then stop to wait.
+                        // TASK_DATA top from queue.
+                        data = queue_.front( ) ;
+                        queue_.pop( ) ;
                 }
-
-                // Condition is satisfy, then stop to wait.
-                // TASK_DATA top from queue.
-                boThreadTaskData* data = queue_.front( ) ;
-                queue_.pop( ) ;
-
 
 #ifdef BINGO_DEBUG_THREAD_TASK
                 boStringAppend ap ;
                 ap.add( "queue pop succes! data:" )->add( data->to_string( ) ) ;
                 bo_debug_out( ap.to_string( ) ) ;
 #endif 
-
                 if ( is_exit_data( data ) ) {
                         is_thread_exit_ = true ;
                 } else {

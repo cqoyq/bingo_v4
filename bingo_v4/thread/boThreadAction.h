@@ -15,6 +15,7 @@
 #define BINGO_THREAD_HEADER_H_
 
 #include "bingo_v4/boType.h"
+#include "bingo_v4/boErrorWhat.h"
 
 // Thread error type.
 enum {
@@ -52,6 +53,29 @@ namespace bingo {
                         virtual bool is_exit_data(boThreadTaskData*& data) {
                                 return false;
                         }
+                };
+
+                // Thread task service action.
+                class boThreadTaskSvrAction {
+                public:
+                        virtual ~boThreadTaskSvrAction() {
+                        }
+                        virtual void svc() {
+                        };
+                        virtual int put(boThreadTaskData* data, boErrorWhat& e_what) {
+                                return 0;
+                        }
+
+                        // Handle thread task key.
+                        string& get_key() {
+                                return key_;
+                        }
+                        void set_key(const char* key) {
+                                key_ = key;
+                        }
+
+                protected:
+                        string key_;
                 };
         }
 }
